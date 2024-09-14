@@ -1,0 +1,36 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+
+<form action="" method="POST">
+    <div class="container  pt-5">
+        <div class="text-center">
+            <h3 class="display-10 fw-bold 1h-1 mb-3" style="color: red;"><em>Your Payment was not successful..</em></h3>
+            <p class="fs-4 ">Please retry your transaction!
+
+          
+              
+            <a href="{% url 'initiate-payment' %}" class="btn btn-danger">Back to
+                Payment</a>
+
+    
+        </div>
+    </div>
+</form>
+
+     <style>
+        
+        .btn-danger {
+            background-color: darkorange !important;
+
+        }
+
+        .btn-danger:hover {
+            color: blue !important;
+        }
+    </style>
+
+
+
+{% endblock content %}

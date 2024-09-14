@@ -1,0 +1,74 @@
+{% extends './base.html' %}
+
+
+
+
+{% block content %}
+
+<div class="container  pt-5">
+    <div class="text-center">
+        <h2 class="display-6" style="color:darkorange">Hello! You are about to pay <span
+            style="border-radius: 5px; background-color: black; color:#88ff00; font-size: 32px;">
+            NGN{{payment.amount}}</span> for your chosen Coure <span style="border-radius: 5px; background-color: black; color:#88ff00; font-size: 32px;">"{{payment.course_name}}"</span> </h2>
+                <h4 style="font-size: 15px;">Please wait for your ID Number after your payment, do not terminate the process.</h4>
+        <br></br>
+        <script src="https://js.paystack.co/v1/inline.js"></script>
+        <button onClick="payWithPaystack()" id="django-paystack-button" class="btn btn-danger">Continue to complete your
+            payment<i class="fa fa-arrow-right ms-3 me-3"></i></button>
+    </div>
+</div>
+
+<br></br><br></br>
+
+<div class="text-center">
+
+    <a href="{% url 'initiate-payment' %}" class="btn btn-danger"><i class="fa fa-arrow-left ms-3 me-3"></i>Back to
+        Payment
+        Form</a>
+</div>
+<style>
+    .btn-danger {
+        background-color: darkorange !important;
+
+    }
+
+    .btn-danger:hover {
+        color: blue !important;
+    }
+</style>
+
+
+
+<script>
+    function payWithPaystack() {
+
+        let currency = "NGN";
+        let plan = "";
+        let ref = "{{ payment.ref }}"
+        let obj = {
+            key: "{{ paystack_public_key }}",
+            email: '{{payment.email}}',
+            amount: '{{payment.amount_value}}',
+            ref: ref,
+            callback: function (response) {
+                window.location.href = "{% url 'verify-payment' payment.ref %}";
+            }
+
+        }
+        if (Boolean(currency)) {
+            obj.currency = currency.toUpperCase();
+        }
+        if (Boolean(plan)) {
+            obj.plan = plan;
+
+        }
+        var handler = PaystackPop.setup(obj);
+        handler.openIframe();
+
+
+    }
+
+</script>
+
+
+{% endblock content %}
